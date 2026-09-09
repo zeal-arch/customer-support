@@ -5,7 +5,9 @@ Use exactly one primary intent per customer message. Label the customer's underl
 ## Labels
 
 | Label | Use when | Examples of signals |
-|---|---|---|
+
+## ----------------------------------------------------------------------------------------------------------------------------------------------------
+
 | `ios_software_bug` | The customer reports an iOS or built-in software bug, crash, freeze, keyboard problem, update regression, or unexpected device behavior. | "question mark boxes", "after iOS 11", "keeps freezing", "autocorrect is broken" |
 | `battery_power` | The main problem is battery life, charging, power, overheating, or a device that will not turn on. | "battery drains", "won't charge", "battery health" |
 | `app_service_issue` | A specific Apple app or service is the problem, excluding App Store billing. | Photos, Music, Messages, Maps, Safari, iCloud, Apple Pay, FaceTime |
@@ -35,11 +37,14 @@ Set `gold_escalate` to `true` when a human should review the case before the age
 ## Sampling and Labeling Methodology (250 Examples)
 
 ### Sampling Strategy
-The 250 evaluation examples in `golden_set.csv` were sampled from the 106,648 AppleSupport conversation pairs extracted from the Kaggle *Customer Support on Twitter* dataset (`twcs.csv`).
+
+The 250 evaluation examples in `golden_set.csv` were sampled from the 106,648 AppleSupport conversation pairs extracted from the Kaggle _Customer Support on Twitter_ dataset (`twcs.csv`).
+
 - **Stratification**: To avoid an evaluation set dominated exclusively by the majority class (`ios_software_bug`), sampling was stratified across lexical clusters to ensure robust representation of rare but high-stakes categories (e.g., account security, App Store billing disputes, battery power loss, hardware accessories, and device sync).
 - **Leakage Prevention**: All 250 customer tweet IDs in the golden set are strictly excluded from the agent's historical retrieval pool before any baseline evaluation runs.
 
 ### Labeling & Audit Protocol
+
 - **Initial Pass**: Automated high-confidence lexical matching mapped unambiguous queries into candidate intents.
 - **Expert Review & Audit**: Every candidate row was manually audited and finalized against the definitions and tie-breakers in this guide. Ambiguous boundary cases (such as queries mentioning both an iOS update and rapid battery depletion) were resolved in favor of the actionable primary failure mode (`battery_power`). Financial charges on cloud subscriptions were separated from device charging.
 - **Escalation Ground Truth**: `gold_escalate` was set to `true` whenever an issue required account-specific credentials, involves billing/refund transactions, fraud/phishing reports, device damage, or when the message lacked sufficient diagnostic detail for an automated reply. Routine troubleshooting and configuration inquiries were set to `false`.
