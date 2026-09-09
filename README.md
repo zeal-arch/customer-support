@@ -97,31 +97,9 @@ Results land in `evaluation/results/`:
 
 ## Current brand choice
 
-The initial candidate is `AppleSupport`. The raw-data scan found 106,860 outbound replies for this account. This is a working choice, not a claim that AppleSupport is the only valid option.
+The chosen brand is `AppleSupport`. The extracted dataset of 106,648 customer/reply pairs is bundled directly in `data/processed/applesupport_pairs.csv` for immediate, zero-friction reproducibility.
 
-To extract customer/reply pairs:
-
-```powershell
-python -m src.extract_brand `
-  --input data/raw/twcs/twcs.csv `
-  --brand AppleSupport `
-  --output data/processed/applesupport_pairs.csv
-```
-
-To explore recurring topics before defining intents:
-
-```powershell
-python -m src.profile_brand --input data/processed/applesupport_pairs.csv
-```
-
-The initial intent definitions are documented in `evaluation/intent_guide.md`. Create a human-labeling sheet with:
-
-```powershell
-python -m src.create_labeling_sample `
-  --input data/processed/applesupport_pairs.csv `
-  --output evaluation/golden_set.csv `
-  --size 250
-```
+The 9 intent definitions and stratified sampling methodology across 5 text-length buckets are documented in `evaluation/intent_guide.md`.
 
 ## How the supplied notebooks are used
 
@@ -135,7 +113,6 @@ Run the current transparent retrieval baseline on a single message:
 
 ```powershell
 python -m src.run_agent `
-  --pairs data/processed/applesupport_pairs.csv `
   --text "My iPhone battery drains after the latest update"
 ```
 
@@ -143,27 +120,14 @@ The optional semantic backend uses `sentence-transformers/all-MiniLM-L6-v2`:
 
 ```powershell
 python -m src.run_agent `
-  --pairs data/processed/applesupport_pairs.csv `
   --backend minilm `
-  --max-reference 30000 `
   --text "My iPhone battery drains after the latest update"
 ```
 
-Create draft labels to speed up golden-set review:
+Run the 3-system baseline comparison against the golden set:
 
 ```powershell
-python -m src.suggest_labels `
-  --input evaluation/golden_set.csv `
-  --output evaluation/golden_set_draft.csv
-```
-
-After reviewing and filling the official gold columns, run the leakage-safe evaluation:
-
-```powershell
-python -m src.evaluate_agent `
-  --pairs data/processed/applesupport_pairs.csv `
-  --golden evaluation/golden_set.csv `
-  --output-dir evaluation/results
+python -m src.run_baselines
 ```
 
 Compare raw text, our conservative preprocessing, and the notebook-style pipeline:

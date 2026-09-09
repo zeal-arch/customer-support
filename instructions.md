@@ -120,19 +120,21 @@ python -m src.run_agent --pairs data/processed/applesupport_pairs.csv --text "I 
 
 ---
 
-## 5. Dataset Reproduction (From Scratch)
+## 5. Comparative Experiments & Verification
 
-If starting from the Kaggle Customer Support on Twitter dataset (`twcs.csv`):
+To run additional empirical verification experiments:
 
-1. **Extract AppleSupport pairs**:
+1. **Compare Text Preprocessing Pipelines**:
    ```bash
-   python -m src.extract_brand --input data/raw/twcs/twcs.csv --brand AppleSupport --output data/processed/applesupport_pairs.csv
+   python -m src.compare_preprocessing --input data/processed/applesupport_pairs.csv --output evaluation/preprocessing_comparison.csv
    ```
-2. **Generate the evaluation set**:
+
+2. **Benchmark on Banking77 Intent Dataset**:
    ```bash
-   python -m src.create_labeling_sample --pairs data/processed/applesupport_pairs.csv --output evaluation/golden_set_draft.csv
+   python -m src.banking77_experiment --max-train 1000 --max-test 500
    ```
-3. **Run the baselines**:
+
+3. **Run 3-System Baseline Comparison**:
    ```bash
-   python -m src.run_baselines --pairs data/processed/applesupport_pairs.csv --golden evaluation/golden_set.csv --output-dir evaluation/results
+   python -m src.run_baselines
    ```
