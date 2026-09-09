@@ -5,19 +5,19 @@ Non-obvious decisions made during this project and why.
 ---
 
 1. **Brand: AppleSupport over all others**
-   Raw scan found AppleSupport had the highest outbound reply count (106,860) among all support accounts in the dataset. Higher volume → richer retrieval corpus → more likely to find relevant historical examples. Could have picked Amazon or Spotify but AppleSupport also has diverse, well-scoped support issues (hardware, software, billing, security).
+   Raw scan found AppleSupport had the highest outbound reply count (106,860) among all support accounts in the dataset. Higher volume -> richer retrieval corpus -> more likely to find relevant historical examples. Could have picked Amazon or Spotify but AppleSupport also has diverse, well-scoped support issues (hardware, software, billing, security).
 
 2. **11 intents, not fewer and not 77**
-   Banking77's 77-label schema is too granular for a 106k-tweet corpus where many categories would have < 100 examples. A 3–5 label schema loses too much specificity (hardware and billing conflated is dangerous). 11 labels emerged from two rounds of KMeans clustering on the corpus and match the natural topic groups observed.
+   Banking77's 77-label schema is too granular for a 106k-tweet corpus where many categories would have < 100 examples. A 3-5 label schema loses too much specificity (hardware and billing conflated is dangerous). 11 labels emerged from two rounds of KMeans clustering on the corpus and match the natural topic groups observed.
 
-3. **Conservative text preprocessing (URL → URL token, @mention → USER token; keep everything else)**
+3. **Conservative text preprocessing (URL -> URL token, @mention -> USER token; keep everything else)**
    The notebook-style preprocessing (remove punctuation, stopwords) achieves higher retrieval similarity scores but destroys signal that matters for support: product names (`AirPods`, `iOS 17`), complaint intensity (`STILL broken`), and technical terms (`FaceTime`, `AirDrop`). The conservative approach sacrifices 10 pp of retrieval similarity score but preserves classifiable signal.
 
 4. **TF-IDF + Logistic Regression, not a transformer**
-   8 GB RAM / 4 GB VRAM rules out fine-tuning BERT locally. TF-IDF + LR fits comfortably in RAM, trains in under 2 minutes on 18k examples, and is fully transparent — you can inspect which n-grams drive each prediction. For the submission's explainability requirement, this is strictly better than a black-box model.
+   8 GB RAM / 4 GB VRAM rules out fine-tuning BERT locally. TF-IDF + LR fits comfortably in RAM, trains in under 2 minutes on 18k examples, and is fully transparent -- you can inspect which n-grams drive each prediction. For the submission's explainability requirement, this is strictly better than a black-box model.
 
-5. **Weak supervision for classifier training (rule-based classifier → LR training data)**
-   We have no human-labeled training set for the 11 intents. Instead, we apply the rule-based regex classifier to 40k pairs, keep high-confidence predictions (≥ 0.60), and use those as noisy training labels. This is a standard self-training pattern; its limitation is that the LR model learns the rule-based classifier's biases, which is documented in the "What is misleading" section.
+5. **Weak supervision for classifier training (rule-based classifier -> LR training data)**
+   We have no human-labeled training set for the 11 intents. Instead, we apply the rule-based regex classifier to 40k pairs, keep high-confidence predictions (>= 0.60), and use those as noisy training labels. This is a standard self-training pattern; its limitation is that the LR model learns the rule-based classifier's biases, which is documented in the "What is misleading" section.
 
 6. **Hard escalation rules for account_access_security and app_store_billing**
    These two intents carry financial and security risk. Any automated reply that handles them wrongly is worse than no reply at all. Hard escalation is the conservative-correct choice regardless of confidence or retrieval quality.
@@ -35,7 +35,7 @@ Non-obvious decisions made during this project and why.
     LLM generation adds an uncontrolled hallucination risk and requires either a paid API or local hardware we don't have. Retrieved examples are always grounded in real AppleSupport responses, which is a stronger safety guarantee for a support agent. The trade-off is that replies are sometimes slightly off-topic (when retrieval quality is low).
 
 11. **250 golden set examples, not 150**
-    The assignment specifies 150–250. 250 gives more statistical power for macro-F1 (rare classes like `setup_transfer_sync` need multiple examples to show up in precision/recall). Sampling more costs labeling time but we automated labeling, making 250 essentially free.
+    The assignment specifies 150-250. 250 gives more statistical power for macro-F1 (rare classes like `setup_transfer_sync` need multiple examples to show up in precision/recall). Sampling more costs labeling time but we automated labeling, making 250 essentially free.
 
 12. **Two-pass labeling: rule-based first, LR second for low-confidence rows**
     The rule-based classifier is precise on its strongest patterns (battery, security, billing) but weak on ambiguous messages (classified as `other_unclear`). The LR pass recovers meaningful labels for 126 of those rows, reducing the `other_unclear` rate from 40% to near 0%.
