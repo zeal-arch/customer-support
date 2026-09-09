@@ -34,6 +34,7 @@ src/run_baselines.py
 evaluation/
 
 # Temporary and scratch files / logs
+clone/
 scripts/
 scratch/
 *.log

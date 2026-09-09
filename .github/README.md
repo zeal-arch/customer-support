@@ -8,39 +8,42 @@ The system integrates **dynamic brand auto-routing**, **hybrid domain precedence
 
 ## Key Features
 
-- **🌐 Dynamic Multi-Brand Auto-Routing**: Automatically identifies the target brand from customer mentions, hashtags, handles, or context keywords across 108+ brands, routing queries to brand-isolated retrieval indices.
-- **🎯 100% Intent Classification Accuracy**: Combines domain-specific regex precedence rules with sublinear TF-IDF + Logistic Regression fallback.
-- **⚡ Grounded RAG Retrieval (0% Hallucination)**: Drafts responses strictly using historical agent-verified conversation pairs, eliminating generative LLM hallucinations and broken links.
-- **🛡️ Deterministic Safety Escalation**: Decouples safety gating from intent classification to guarantee immediate escalation for account security compromises, driver/rider harassment, payment fraud, and severe distress.
-- **🧪 Isolated Sub-Brand Test Modules**: Fully self-contained test modules under `src/brands/` (`apple/`, `uber/`, `amazon/`, `spotify/`) allowing rapid prototyping, benchmarking, and continuous integration before universal deployment.
-- **🚀 High-Throughput CPU Performance**: Executes >100 queries/second on standard CPU hardware without requiring heavy GPU clusters.
+- **Dynamic Multi-Brand Auto-Routing**: Automatically identifies the target brand from customer mentions, hashtags, handles, or context keywords across 108+ brands, routing queries to brand-isolated retrieval indices.
+- **100% Intent Classification Accuracy**: Combines domain-specific regex precedence rules with sublinear TF-IDF + Logistic Regression fallback.
+- **Grounded RAG Retrieval (0% Hallucination)**: Drafts responses strictly using historical agent-verified conversation pairs, eliminating generative LLM hallucinations and broken links.
+- **Deterministic Safety Escalation**: Decouples safety gating from intent classification to guarantee immediate escalation for account security compromises, driver/rider harassment, payment fraud, and severe distress.
+- **Isolated Sub-Brand Test Modules**: Fully self-contained test modules under `src/brands/` (`apple/`, `uber/`, `amazon/`, `spotify/`) allowing rapid prototyping, benchmarking, and continuous integration before universal deployment.
+- **High-Throughput CPU Performance**: Executes >100 queries/second on standard CPU hardware without requiring heavy GPU clusters.
 
 ---
 
-## System Architecture
+## System Pipeline Flow
 
-```mermaid
-flowchart TD
-    Inbound[Customer Inbound Tweet / Query] --> Preprocess[Universal Text Preprocessing & Entity Extraction]
-    Preprocess --> SafetyGate{Deterministic Safety Gate}
-    SafetyGate -- "Critical Security / Harassment / Fraud" --> Escalate[Human Escalation Flagged + Reason]
-    SafetyGate -- "Standard Inquiry" --> BrandDetect{Brand Auto-Router}
-    
-    BrandDetect -->|Apple Mention| AppleIdx[(AppleSupport RAG Index)]
-    BrandDetect -->|Uber Mention| UberIdx[(Uber_Support RAG Index)]
-    BrandDetect -->|Amazon Mention| AmazonIdx[(AmazonHelp RAG Index)]
-    BrandDetect -->|Spotify Mention| SpotifyIdx[(SpotifyCares RAG Index)]
-    BrandDetect -->|Other 104 Brands| GenericIdx[(Brand-Specific Sub-Corpus)]
-    
-    AppleIdx --> IntentClass[Hybrid Intent Classifier]
-    UberIdx --> IntentClass
-    AmazonIdx --> IntentClass
-    SpotifyIdx --> IntentClass
-    GenericIdx --> IntentClass
-    
-    IntentClass --> TopK[Cosine Similarity Top-K Match]
-    TopK --> ResponseDraft[Draft Grounded Response + Evidence]
-    ResponseDraft --> Outbound[JSON Response Payload]
+```text
+[ Customer Inbound Query ]
+            |
+            v
+[ Universal Text Preprocessing & Entity Extraction ]
+            |
+            v
+[ Deterministic Safety Gate ] ---> (Critical Incident?) ---> [ Flag Human Escalation ]
+            | (Standard Inquiry)
+            v
+[ Brand Auto-Router ]
+     |---> AppleSupport Mention   ---> [ AppleSupport RAG Index ]
+     |---> Uber_Support Mention   ---> [ Uber_Support RAG Index ]
+     |---> AmazonHelp Mention     ---> [ AmazonHelp RAG Index ]
+     |---> SpotifyCares Mention   ---> [ SpotifyCares RAG Index ]
+     |---> Other 104 Brands       ---> [ Generic Brand Sub-Corpus ]
+            |
+            v
+[ Hybrid Intent Classifier ]
+            |
+            v
+[ Cosine Similarity Top-K Match ]
+            |
+            v
+[ Draft Grounded Response + Evidence Payload ]
 ```
 
 ---
@@ -68,7 +71,7 @@ python -m pip install -r requirements.txt
 
 ---
 
-## Instructions & Execution Guide
+## Execution Guide & CLI Usage
 
 ### 1. Universal Agent (Multi-Brand Auto-Routing)
 
@@ -168,21 +171,12 @@ python -m src.brands.spotify.run --interactive
 
 ---
 
-### 3. Text Preprocessing & Entity Extraction Engine
+### 3. Text Preprocessing Engine
 
 Test the standalone text normalization, support shorthand expansion, entity extraction, and sentiment/urgency detector:
 
 ```powershell
 python -m src.text_preprocessing "@AppleSupport my iPhone 14 Pro battery is dying ASAP! http://t.co/xyz #iOS17"
-```
-
-**Preprocessing Output:**
-```text
-Original:    @AppleSupport my iPhone 14 Pro battery is dying ASAP! http://t.co/xyz #iOS17
-Normalized:  @applesupport my iphone 14 pro battery is dying as soon as possible ! <url> #ios17
-Tokens:      ['@applesupport', 'iphone', '14', 'pro', 'battery', 'dying', 'as', 'soon', 'as', 'possible', '<url>', '#ios17']
-Urgency:     HIGH (Keywords: ['asap'])
-Entities:    {'products': ['iphone 14 pro'], 'versions': ['ios17'], 'mentions': ['@applesupport']}
 ```
 
 ---
@@ -244,7 +238,7 @@ customer-support/
 | System | Intent Accuracy | Intent Macro-F1 | Escalation Accuracy | Hallucination Rate | Throughput (CPU) |
 |---|---|---|---|---|---|
 | Majority Class Baseline | 70.4% | 0.0918 | 76.0% | N/A | >1000 q/s |
-| Pure TF-IDF Baseline | 50.4% | 0.5603 | 71.6% | 0% | >500 q/s |
+| Pure TF-IDF Baseline | 50.4% | 0.5603 | 71.6% | 0.0% | >500 q/s |
 | Neural Seq2Seq / LLM (Unconstrained) | 78.2% | 0.7420 | 81.4% | >64.0% | ~5 q/s |
 | **Our Hybrid Multi-Brand Agent** | **100.0%** | **1.0000** | **93.6%** | **0.0%** | **>100 q/s** |
 
