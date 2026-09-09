@@ -30,8 +30,8 @@ scratch/
 *.log
 *.tmp
 
-# Graphify internal cache
-graphify-out/cache/
+# Graphify internal cache and output
+graphify-out/
 .markdown-collab/
 
 # Editor and OS files
