@@ -1,4 +1,0 @@
-system,n_examples,intent_accuracy,intent_macro_f1,escalation_accuracy
-Trivial,250,0.704,0.0918,0.76
-Simple,250,0.504,0.5603,0.716
-Our Agent,250,1.0,1.0,0.936

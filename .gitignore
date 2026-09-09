@@ -17,11 +17,21 @@ htmlcov/
 .ruff_cache/
 
 # Raw dataset archive and extracted twcs
-data/raw/twcs/
-data/raw/*.zip
-data/raw/*.tar.gz
-data/raw/*.ipynb
-data/raw/sample.csv
+data/*.zip
+data/twcs/
+data/raw/
+data/processed/
+data/*.csv
+
+# Internal documentation and scratch experiments (never pushed)
+.docs/
+online_agents/
+instructions.md
+Hiver SDE Intern Assignment.md
+requirements-optional.txt
+src/benchmark_all_models.py
+src/run_baselines.py
+evaluation/
 
 # Temporary and scratch files / logs
 scripts/
