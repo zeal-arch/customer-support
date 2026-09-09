@@ -20,8 +20,6 @@ htmlcov/
 data/*.zip
 data/twcs/
 data/raw/
-data/processed/
-data/*.csv
 
 # Internal documentation and scratch experiments (never pushed)
 .docs/
