@@ -16,33 +16,19 @@ htmlcov/
 .mypy_cache/
 .ruff_cache/
 
-# Dataset files and directories (download instructions in README)
+# Large raw datasets (download instructions in README)
 data/twcs/
 data/raw/
-data/processed/
 data/*.zip
-data/*.csv
+data/processed/brands/applesupport/applesupport_predictions.csv
 
-# Internal documentation and scratch experiments (never pushed)
-.docs/
-online_agents/
-instructions.md
-Hiver SDE Intern Assignment.md
-requirements-optional.txt
-src/benchmark_all_models.py
-src/run_baselines.py
-evaluation/
+# Allow the AppleSupport conversation pairs dataset (26.9 MB < 100 MB GitHub limit)
+!data/processed/brands/applesupport/applesupport_pairs.csv
 
 # Temporary and scratch files / logs
-clone/
-scripts/
 scratch/
 *.log
 *.tmp
-
-# Graphify internal cache and output
-graphify-out/
-.markdown-collab/
 
 # Editor and OS files
 .vscode/

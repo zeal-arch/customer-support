@@ -1,46 +1,19 @@
-# AI Customer Support Agent
+# AppleSupport AI Agent
 
 > **Hiver SDE Intern — Take-Home Assignment Submission**  
-> An AI customer support agent built on real-world Twitter customer support conversations (`twcs.csv`), featuring intent classification, grounded response drafting, and deterministic safety escalation.
+> An AI customer support agent for **AppleSupport** built on real-world Twitter customer support conversations (`twcs.csv`), featuring intent classification, grounded response drafting, and deterministic safety escalation.
 
 ---
 
 ## Overview
 
-- **Primary Brand**: `AppleSupport` (106,648 historical customer/agent conversation pairs)
-- **Universal Multi-Brand Engine**: Also supports `Uber_Support`, `AmazonHelp`, `SpotifyCares`, and 100+ other brands with dynamic auto-routing.
+- **Chosen Brand**: `AppleSupport` (106,648 customer/agent conversation pairs)
+- **Architecture**: Hybrid Domain Precedence + Sublinear TF-IDF Intent Classifier + TF-IDF Grounded RAG Retrieval + Deterministic Safety Escalation Guardrails.
 
 ### The Agent Performs 3 Tasks:
-1. **Intent Classification**: Classifies incoming customer inquiries into domain-specific intents.
+1. **Intent Classification**: Classifies incoming customer inquiries into 11 domain-specific intents.
 2. **Grounded Response Drafting**: Drafts safe, authentic replies strictly from verified historical resolutions (0% hallucination).
-3. **Deterministic Safety Escalation**: Decides whether to auto-handle or escalate to a human agent with a clear reason.
-
----
-
-## Headline Evaluation Results
-
-Evaluated against a 250-example hand-labelled golden dataset across three systems:
-
-| System | Intent Accuracy | Intent Macro-F1 | Escalation Accuracy | Hallucination Rate |
-|---|---|---|---|---|
-| **Trivial Baseline** (Majority Class) | 70.40% | 0.0918 | 76.00% | N/A |
-| **Simple Baseline** (Rule-based + TF-IDF) | 50.40% | 0.5603 | 71.60% | 0.0% |
-| **Our Agent** (Hybrid Precedence + LR + RAG) | **100.00%** | **1.0000** | **93.60%** | **0.0%** |
-
-- **Escalation Breakdown**: True Negatives (Auto-handled safely) = 189, False Positives (Over-escalated) = 1, False Negatives = 15, True Positives (Correctly escalated) = 45.
-
----
-
-## Key Agent Capabilities
-
-- **Automatic On-the-Fly Brand Extraction**:
-  The Universal Agent (`src.universal_agent`) automatically filters and indexes conversation pairs directly from the raw `twcs.csv` on the fly. No manual preprocessing scripts or sub-brand CSV splitting are required.
-- **Zero-Config Embedded Fallback**:
-  If run immediately on a fresh clone before downloading the dataset, the agent uses an embedded seed database of verified conversations across Apple, Uber, Amazon, and Spotify so commands never crash.
-- **Interactive Multi-Brand Shell**:
-  Provides a live terminal chat session (`--interactive`) to test real-time routing, intent classification, and safety escalation across any brand.
-- **Strict Safety Gating**:
-  Decouples escalation from intent classification to guarantee immediate human routing for compromised accounts, payment disputes, driver harassment, and safety incidents.
+3. **Deterministic Safety Escalation**: Decides whether to auto-handle or escalate to a human agent with a clear stated reason.
 
 ---
 
@@ -60,46 +33,31 @@ Download the Kaggle dataset (*Customer Support on Twitter*):
    ```text
    data/twcs/twcs.csv
    ```
-*(Note: The agent runs immediately even before placing this file, using its embedded knowledge base).*
+*(Note: The agent runs immediately even before placing this file, using its built-in seed database).*
 
 ---
 
 ## How to Run
 
-### 1. Run Live Queries (Universal Agent)
+### 1. Test Single Customer Messages
 
 ```powershell
 # Standard technical query (Auto-handled)
-python -m src.universal_agent --text "@AppleSupport my battery is draining super fast after the latest iOS update"
+python -m src.run_agent --text "@AppleSupport my battery is draining super fast after updating to iOS 11"
 
 # Security & account issue (Escalated to human)
-python -m src.universal_agent --text "@AppleSupport someone hacked my Apple ID and locked me out"
+python -m src.run_agent --text "@AppleSupport someone hacked my Apple ID and locked me out"
 
-# Multi-brand query (Auto-routed to Uber)
-python -m src.universal_agent --text "@Uber_Support my driver was driving recklessly and threatened me!"
+# Hardware / screen repair query
+python -m src.run_agent --text "@AppleSupport my iPhone 8 screen is cracked and unresponsive"
 ```
 
 ### 2. Interactive Terminal Chat
 
-Launch an interactive multi-brand chat session:
-```powershell
-python -m src.universal_agent --interactive
-```
-
-### 3. Isolated Sub-Brand Test Modules
+Launch an interactive chat session:
 
 ```powershell
-# AppleSupport
-python -m src.brands.apple.run --text "My AirPods won't connect to my MacBook Pro"
-
-# Uber Support
-python -m src.brands.uber.run --text "I was charged twice for my trip yesterday @Uber_Support"
-
-# Amazon Help
-python -m src.brands.amazon.run --text "My package was marked delivered but never arrived @AmazonHelp"
-
-# Spotify Cares
-python -m src.brands.spotify.run --text "Spotify Family plan charged me twice this month @SpotifyCares"
+python -m src.run_agent --interactive
 ```
 
 ---
@@ -109,7 +67,7 @@ python -m src.brands.spotify.run --text "Spotify Family plan charged me twice th
 All deliverables required by the assignment are included in the repository:
 
 1. **[REPORT.md](file:///d:/projects/hiver/REPORT.md)**:
-   - Problem framing and scope boundaries.
+   - Problem framing and scope boundaries for AppleSupport.
    - Comparison against trivial and simple baselines.
    - Top 5 failure modes with real-world examples and root-cause hypotheses.
    - _"What is misleading about my headline number?"_ section.
@@ -117,7 +75,7 @@ All deliverables required by the assignment are included in the repository:
 2. **[DECISION_LOG.md](file:///d:/projects/hiver/DECISION_LOG.md)**:
    - 15 non-obvious engineering decisions and their technical rationale.
 3. **[intent_guide.md](file:///d:/projects/hiver/intent_guide.md)**:
-   - Intent taxonomy, definitions, and golden set annotation methodology.
+   - 11-intent taxonomy, definitions, and golden set annotation methodology.
 4. **[llm_judge_rubric.md](file:///d:/projects/hiver/llm_judge_rubric.md)**:
    - Evaluation harness rubric and human-LLM judge agreement framework.
 
@@ -128,13 +86,11 @@ All deliverables required by the assignment are included in the repository:
 ```text
 customer-support/
 ├── src/
-│   ├── universal_agent.py             # Universal Master Agent (108+ Brands Auto-Routing)
-│   ├── text_preprocessing.py          # Central Text Normalization & Entity Extractor
-│   └── brands/                        # Self-contained Sub-Brand Test Modules
-│       ├── apple/                     # AppleSupport RAG Agent & Intent Classifier
-│       ├── uber/                      # Uber Support RAG Agent & Safety Classifier
-│       ├── amazon/                    # Amazon Help RAG Agent & Order Classifier
-│       └── spotify/                   # Spotify Cares RAG Agent & Billing Classifier
+│   ├── agent.py                       # AppleSupport RAG Agent & Escalation Engine
+│   ├── intent_classifier.py           # 11-Intent Precedence & TF-IDF Classifier
+│   ├── text_preprocessing.py          # Apple Entity Recognition & Tweet Normalizer
+│   ├── run_agent.py                   # CLI & Interactive Runner
+│   └── run_baselines.py               # 3-System Benchmark Evaluator
 ├── DECISION_LOG.md                    # 15 non-obvious design decisions
 ├── REPORT.md                          # Comprehensive technical performance report
 ├── intent_guide.md                    # Intent taxonomy & annotation guide

@@ -1,32 +1,27 @@
-"""Unified Text Preprocessing and Domain Entity Extraction for Multi-Brand Customer Support.
+"""Text Preprocessing and Entity Extraction for AppleSupport AI Customer Support.
 
-This single module serves the entire TWCS dataset and all brand agents:
-- Universal Normalization (HTML unescaping, URL/Mention masking, Emoji stripping, Chat expansion, Lemmatization)
-- Domain Entity Extractors (Apple, Uber, Amazon, Spotify, Airlines)
-- Urgency & Critical Safety Detectors
-- Handle Personalization & Reply Sanitizers
+Normalizes incoming tweets and extracts domain entities (devices, OS versions,
+hardware components) and detects customer urgency.
 """
 
 from __future__ import annotations
 
 import html
 import re
-from typing import Dict, List, Any
 
-# ── Optional NLTK lemmatizer ─────────────────────────────────────────────────
+# Optional NLTK lemmatizer (falls back to clean tokenization if not installed)
 try:
-    from nltk.stem import WordNetLemmatizer
     import nltk
+    from nltk.stem import WordNetLemmatizer
 
     nltk.data.find("corpora/wordnet")
     _LEMMATIZER = WordNetLemmatizer()
     _NLTK_AVAILABLE = True
 except Exception:
     _NLTK_AVAILABLE = False
-    _LEMMATIZER = None  # type: ignore
+    _LEMMATIZER = None
 
-
-# ── Compiled Core Regex Patterns ─────────────────────────────────────────────
+# Core Regex Patterns
 URL_PATTERN = re.compile(r"(?:https?://|www\.)\S+", re.IGNORECASE)
 MENTION_PATTERN = re.compile(r"@[A-Za-z0-9_]+")
 EMOJI_PATTERN = re.compile(
@@ -67,11 +62,26 @@ _CHAT_ABBREVS: dict[str, str] = {
     "eta": "estimated arrival time",
 }
 
+# Apple Hardware & OS Entity Dictionaries
+APPLE_DEVICES = [
+    (r"\biphone\s*(?:x[sr]?|1[1-5](?:\s*pro(?:\s*max)?)?|[6-8](?:\s*plus)?|se|5[sc]?)\b", "iPhone"),
+    (r"\bipad\s*(?:pro|air|mini)?\b", "iPad"),
+    (r"\bmacbook\s*(?:pro|air)?\b", "MacBook"),
+    (r"\bapple\s*watch(?:\s*series\s*[1-9])?\b", "Apple Watch"),
+    (r"\bairpods\s*(?:pro|max)?\b", "AirPods"),
+    (r"\bimac(?:\s*pro)?\b", "iMac"),
+    (r"\bmac\s*(?:mini|studio|pro)\b", "Mac Desktop"),
+]
 
-# ── Universal Normalization Functions ────────────────────────────────────────
+APPLE_OS = [
+    (r"\bios\s*(?:1[0-7](?:\.[0-9]+)*|[6-9](?:\.[0-9]+)*)\b", "iOS"),
+    (r"\bmacos\s*(?:high\s*sierra|sierra|mojave|catalina|big\s*sur|monterey|ventura|sonoma)?\b", "macOS"),
+    (r"\bwatchos\s*[0-9.]*\b", "watchOS"),
+]
+
 
 def normalize_for_classification(text: object, lemmatize: bool = False) -> str:
-    """Standardized normalization across all TWCS customer support queries."""
+    """Standardized text normalization for AppleSupport intent classification."""
     value = html.unescape("" if text is None else str(text))
     value = URL_PATTERN.sub(" URL ", value)
     value = MENTION_PATTERN.sub(" USER ", value)
@@ -95,38 +105,15 @@ def normalize_for_retrieval(text: object) -> str:
 
 
 def clean_tweet_text(text: str) -> str:
-    """Fast cleaner that strips URLs, user handles, and excessive whitespace."""
+    """Fast cleaner that strips URLs, handles, and excessive whitespace."""
     t = str(text).lower()
     t = URL_PATTERN.sub("", t)
     t = MENTION_PATTERN.sub("", t)
     return WHITESPACE_PATTERN.sub(" ", t).strip()
 
 
-def original_text(text: object) -> str:
-    """Return a safe string representation without modifying characters."""
-    return "" if text is None else str(text).strip()
-
-
-# ── Apple Entity & Urgency Extraction ────────────────────────────────────────
-
-APPLE_DEVICES = [
-    (r"\biphone\s*(?:x[sr]?|1[1-5](?:\s*pro(?:\s*max)?)?|[6-8](?:\s*plus)?|se|5[sc]?)\b", "iPhone"),
-    (r"\bipad\s*(?:pro|air|mini)?\b", "iPad"),
-    (r"\bmacbook\s*(?:pro|air)?\b", "MacBook"),
-    (r"\bapple\s*watch(?:\s*series\s*[1-9])?\b", "Apple Watch"),
-    (r"\bairpods\s*(?:pro|max)?\b", "AirPods"),
-    (r"\bimac(?:\s*pro)?\b", "iMac"),
-    (r"\bmac\s*(?:mini|studio|pro)\b", "Mac Desktop"),
-]
-
-APPLE_OS = [
-    (r"\bios\s*(?:1[0-7](?:\.[0-9]+)*|[6-9](?:\.[0-9]+)*)\b", "iOS"),
-    (r"\bmacos\s*(?:high\s*sierra|sierra|mojave|catalina|big\s*sur|monterey|ventura|sonoma)?\b", "macOS"),
-    (r"\bwatchos\s*[0-9.]*\b", "watchOS"),
-]
-
-
 def extract_apple_entities(text: str) -> dict:
+    """Extract Apple hardware devices, operating system versions, and components."""
     low = str(text).lower()
     entities: dict[str, list[str]] = {"devices": [], "os_versions": [], "components": []}
 
@@ -146,12 +133,16 @@ def extract_apple_entities(text: str) -> dict:
 
 
 def detect_urgency(text: str) -> dict:
+    """Detect urgency, frustration, or critical safety keywords in customer tweets."""
     low = text.lower()
-    high_urgency = ["urgent", "asap", "emergency", "immediately", "locked out", "stolen", "hacked", "fraud", "compromised"]
-    
+    high_urgency = [
+        "urgent", "asap", "emergency", "immediately", "locked out",
+        "stolen", "hacked", "fraud", "compromised", "unauthorized",
+    ]
+
     if any(k in low for k in high_urgency):
         return {"level": "CRITICAL", "signals": ["Urgent keyword"]}
-    
+
     caps = len(re.findall(r"[A-Z]{3,}", text))
     if caps >= 2 or "!!!" in text:
         return {"level": "HIGH", "signals": ["Frustration/Caps"]}
@@ -160,61 +151,7 @@ def detect_urgency(text: str) -> dict:
 
 
 def clean_apple_reply(reply: str, customer_handle: str = "") -> str:
-    cleaned = re.sub(r"^@\w+\s*", "", reply.strip())
-    if customer_handle:
-        handle = customer_handle if customer_handle.startswith("@") else f"@{customer_handle}"
-        cleaned = f"{handle} {cleaned}"
-    return cleaned
-
-
-# ── Uber Entity & Urgency Extraction ─────────────────────────────────────────
-
-UBER_SERVICES = [
-    (r"\buber\s*eats\b", "Uber Eats"),
-    (r"\buber\s*x(?:l)?\b", "UberX / XL"),
-    (r"\buber\s*black\b", "Uber Black"),
-    (r"\buber\s*pool\b", "Uber Pool"),
-    (r"\buber\s*comfort\b", "Uber Comfort"),
-    (r"\buber\s*auto\b", "Uber Auto"),
-]
-
-UBER_LOST_ITEMS = [
-    (r"\b(?:phone|iphone|android|cell\s*phone|mobile)\b", "Phone / Device"),
-    (r"\b(?:wallet|purse|cardholder|money\s*clip)\b", "Wallet / Purse"),
-    (r"\b(?:keys?|house\s*keys?|car\s*keys?)\b", "Keys"),
-    (r"\b(?:bag|backpack|luggage|suitcase|duffel)\b", "Bag / Luggage"),
-    (r"\b(?:jacket|coat|sweater|hoodie|umbrella|glasses)\b", "Clothing / Accessory"),
-    (r"\b(?:passport|id|driver\s*license|documents?)\b", "ID / Documents"),
-]
-
-
-def extract_uber_entities(text: str) -> dict:
-    low = str(text).lower()
-    entities: dict[str, list[str]] = {"services": [], "lost_items": [], "trip_elements": []}
-
-    for pat, label in UBER_SERVICES:
-        if re.search(pat, low):
-            entities["services"].append(label)
-
-    for pat, label in UBER_LOST_ITEMS:
-        if re.search(pat, low):
-            entities["lost_items"].append(label)
-
-    if any(k in low for k in ["driver", "chauffeur", "captain"]):
-        entities["trip_elements"].append("Driver")
-
-    return entities
-
-
-def detect_uber_urgency(text: str) -> dict:
-    low = text.lower()
-    safety_triggers = ["accident", "crashed", "unsafe", "drunk", "harass", "assault", "police", "threaten", "emergency"]
-    if any(k in low for k in safety_triggers):
-        return {"level": "CRITICAL_SAFETY", "score": 1.0, "triggers": ["Safety trigger"]}
-    return {"level": "STANDARD", "score": 0.0, "triggers": []}
-
-
-def clean_uber_reply(reply: str, customer_handle: str = "") -> str:
+    """Sanitize historical reply and attach customer handle."""
     cleaned = re.sub(r"^@\w+\s*", "", reply.strip())
     if customer_handle:
         handle = customer_handle if customer_handle.startswith("@") else f"@{customer_handle}"

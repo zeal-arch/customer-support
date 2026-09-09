@@ -1,0 +1,257 @@
+{
+  "trivial": {
+    "n_examples": 8,
+    "intent_accuracy": 0.125,
+    "intent_macro_f1": 0.0278,
+    "escalation_accuracy": 0.75,
+    "escalation_confusion_matrix": {
+      "labels": [
+        "auto-handle",
+        "escalate"
+      ],
+      "matrix": [
+        [
+          6,
+          0
+        ],
+        [
+          2,
+          0
+        ]
+      ]
+    },
+    "intent_report": {
+      "account_access_security": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "app_store_billing": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "battery_power": {
+        "precision": 0.125,
+        "recall": 1.0,
+        "f1-score": 0.2222222222222222,
+        "support": 1.0
+      },
+      "connectivity_network": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "hardware_accessory": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "ios_software_bug": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "setup_transfer_sync": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "store_order_delivery": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "accuracy": 0.125,
+      "macro avg": {
+        "precision": 0.015625,
+        "recall": 0.125,
+        "f1-score": 0.027777777777777776,
+        "support": 8.0
+      },
+      "weighted avg": {
+        "precision": 0.015625,
+        "recall": 0.125,
+        "f1-score": 0.027777777777777776,
+        "support": 8.0
+      }
+    }
+  },
+  "simple": {
+    "n_examples": 8,
+    "intent_accuracy": 0.875,
+    "intent_macro_f1": 0.8333,
+    "escalation_accuracy": 0.75,
+    "escalation_confusion_matrix": {
+      "labels": [
+        "auto-handle",
+        "escalate"
+      ],
+      "matrix": [
+        [
+          6,
+          0
+        ],
+        [
+          2,
+          0
+        ]
+      ]
+    },
+    "intent_report": {
+      "account_access_security": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 1.0
+      },
+      "app_store_billing": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 1.0
+      },
+      "battery_power": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 1.0
+      },
+      "connectivity_network": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 1.0
+      },
+      "hardware_accessory": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1-score": 0.6666666666666666,
+        "support": 1.0
+      },
+      "ios_software_bug": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "setup_transfer_sync": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 1.0
+      },
+      "store_order_delivery": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 1.0
+      },
+      "accuracy": 0.875,
+      "macro avg": {
+        "precision": 0.8125,
+        "recall": 0.875,
+        "f1-score": 0.8333333333333333,
+        "support": 8.0
+      },
+      "weighted avg": {
+        "precision": 0.8125,
+        "recall": 0.875,
+        "f1-score": 0.8333333333333333,
+        "support": 8.0
+      }
+    }
+  },
+  "our_agent": {
+    "n_examples": 8,
+    "intent_accuracy": 0.875,
+    "intent_macro_f1": 0.8333,
+    "escalation_accuracy": 1.0,
+    "escalation_confusion_matrix": {
+      "labels": [
+        "auto-handle",
+        "escalate"
+      ],
+      "matrix": [
+        [
+          6,
+          0
+        ],
+        [
+          0,
+          2
+        ]
+      ]
+    },
+    "intent_report": {
+      "account_access_security": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 1.0
+      },
+      "app_store_billing": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 1.0
+      },
+      "battery_power": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 1.0
+      },
+      "connectivity_network": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 1.0
+      },
+      "hardware_accessory": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1-score": 0.6666666666666666,
+        "support": 1.0
+      },
+      "ios_software_bug": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "setup_transfer_sync": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 1.0
+      },
+      "store_order_delivery": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 1.0
+      },
+      "accuracy": 0.875,
+      "macro avg": {
+        "precision": 0.8125,
+        "recall": 0.875,
+        "f1-score": 0.8333333333333333,
+        "support": 8.0
+      },
+      "weighted avg": {
+        "precision": 0.8125,
+        "recall": 0.875,
+        "f1-score": 0.8333333333333333,
+        "support": 8.0
+      }
+    }
+  }
+}

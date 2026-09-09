@@ -1,1 +1,0 @@
-"""AppleSupport brand package."""
