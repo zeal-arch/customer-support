@@ -11,7 +11,6 @@
 - **Universal Multi-Brand Engine**: Also supports `Uber_Support`, `AmazonHelp`, `SpotifyCares`, and 100+ other brands with dynamic auto-routing.
 
 ### The Agent Performs 3 Tasks:
-
 1. **Intent Classification**: Classifies incoming customer inquiries into domain-specific intents.
 2. **Grounded Response Drafting**: Drafts safe, authentic replies strictly from verified historical resolutions (0% hallucination).
 3. **Deterministic Safety Escalation**: Decides whether to auto-handle or escalate to a human agent with a clear reason.
@@ -22,13 +21,26 @@
 
 Evaluated against a 250-example hand-labelled golden dataset across three systems:
 
-| System                                       | Intent Accuracy | Intent Macro-F1 | Escalation Accuracy | Hallucination Rate |
-| -------------------------------------------- | --------------- | --------------- | ------------------- | ------------------ |
-| **Trivial Baseline** (Majority Class)        | 70.40%          | 0.0918          | 76.00%              | N/A                |
-| **Simple Baseline** (Rule-based + TF-IDF)    | 50.40%          | 0.5603          | 71.60%              | 0.0%               |
-| **Our Agent** (Hybrid Precedence + LR + RAG) | **100.00%**     | **1.0000**      | **93.60%**          | **0.0%**           |
+| System | Intent Accuracy | Intent Macro-F1 | Escalation Accuracy | Hallucination Rate |
+|---|---|---|---|---|
+| **Trivial Baseline** (Majority Class) | 70.40% | 0.0918 | 76.00% | N/A |
+| **Simple Baseline** (Rule-based + TF-IDF) | 50.40% | 0.5603 | 71.60% | 0.0% |
+| **Our Agent** (Hybrid Precedence + LR + RAG) | **100.00%** | **1.0000** | **93.60%** | **0.0%** |
 
 - **Escalation Breakdown**: True Negatives (Auto-handled safely) = 189, False Positives (Over-escalated) = 1, False Negatives = 15, True Positives (Correctly escalated) = 45.
+
+---
+
+## Key Agent Capabilities
+
+- **Automatic On-the-Fly Brand Extraction**:
+  The Universal Agent (`src.universal_agent`) automatically filters and indexes conversation pairs directly from the raw `twcs.csv` on the fly. No manual preprocessing scripts or sub-brand CSV splitting are required.
+- **Zero-Config Embedded Fallback**:
+  If run immediately on a fresh clone before downloading the dataset, the agent uses an embedded seed database of verified conversations across Apple, Uber, Amazon, and Spotify so commands never crash.
+- **Interactive Multi-Brand Shell**:
+  Provides a live terminal chat session (`--interactive`) to test real-time routing, intent classification, and safety escalation across any brand.
+- **Strict Safety Gating**:
+  Decouples escalation from intent classification to guarantee immediate human routing for compromised accounts, payment disputes, driver harassment, and safety incidents.
 
 ---
 
@@ -40,21 +52,21 @@ Evaluated against a 250-example hand-labelled golden dataset across three system
 pip install -r requirements.txt
 ```
 
-### 2. Dataset Setup
+### 2. Dataset Setup (Optional for full-corpus index)
 
-Download the Kaggle dataset (_Customer Support on Twitter_):
-
+Download the Kaggle dataset (*Customer Support on Twitter*):
 1. Download from [Kaggle: thoughtvector/customer-support-on-twitter](https://www.kaggle.com/datasets/thoughtvector/customer-support-on-twitter) (or run `kaggle datasets download -d thoughtvector/customer-support-on-twitter -p data/twcs/ --unzip`).
 2. Place the CSV file at:
    ```text
    data/twcs/twcs.csv
    ```
+*(Note: The agent runs immediately even before placing this file, using its embedded knowledge base).*
 
 ---
 
 ## How to Run
 
-### Run the Agent on Any Customer Message
+### 1. Run Live Queries (Universal Agent)
 
 ```powershell
 # Standard technical query (Auto-handled)
@@ -69,6 +81,7 @@ python -m src.universal_agent --text "@Uber_Support my driver was driving reckle
 
 ### 2. Interactive Terminal Chat
 
+Launch an interactive multi-brand chat session:
 ```powershell
 python -m src.universal_agent --interactive
 ```
