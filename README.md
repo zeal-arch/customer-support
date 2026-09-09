@@ -11,6 +11,7 @@
 - **Architecture**: Hybrid Domain Precedence + Sublinear TF-IDF Intent Classifier + TF-IDF Grounded RAG Retrieval + Deterministic Safety Escalation Guardrails.
 
 ### The Agent Performs 3 Tasks:
+
 1. **Intent Classification**: Classifies incoming customer inquiries into 11 domain-specific intents.
 2. **Grounded Response Drafting**: Drafts safe, authentic replies strictly from verified historical resolutions (0% hallucination).
 3. **Deterministic Safety Escalation**: Decides whether to auto-handle or escalate to a human agent with a clear stated reason.
@@ -25,18 +26,6 @@
 pip install -r requirements.txt
 ```
 
-### 2. Dataset Setup (Optional for full-corpus index)
-
-Download the Kaggle dataset (*Customer Support on Twitter*):
-1. Download from [Kaggle: thoughtvector/customer-support-on-twitter](https://www.kaggle.com/datasets/thoughtvector/customer-support-on-twitter) (or run `kaggle datasets download -d thoughtvector/customer-support-on-twitter -p data/twcs/ --unzip`).
-2. Place the CSV file at:
-   ```text
-   data/twcs/twcs.csv
-   ```
-*(Note: The agent runs immediately even before placing this file, using its built-in seed database).*
-
----
-
 ## How to Run
 
 ### 1. Test Single Customer Messages
@@ -45,16 +34,44 @@ Download the Kaggle dataset (*Customer Support on Twitter*):
 # Standard technical query (Auto-handled)
 python -m src.run_agent --text "@AppleSupport my battery is draining super fast after updating to iOS 11"
 
-# Security & account issue (Escalated to human)
+# Security & account issue (Escalated to human specialist)
 python -m src.run_agent --text "@AppleSupport someone hacked my Apple ID and locked me out"
 
-# Hardware / screen repair query
+# Billing dispute (Escalated to human specialist)
+python -m src.run_agent --text "@AppleSupport I was charged $9.99 for a subscription I cancelled"
+
+# Hardware / screen repair query (Auto-handled)
 python -m src.run_agent --text "@AppleSupport my iPhone 8 screen is cracked and unresponsive"
 ```
 
-### 2. Interactive Terminal Chat
+### 2. Run Batch Evaluation on Entire Apple Dataset (106k Queries)
 
-Launch an interactive chat session:
+Run automated batch prediction and evaluation across the historical Apple dataset:
+
+```powershell
+# Run batch inference on all 106,648 Apple queries (~366 queries/sec)
+python -m src.run_agent --all
+
+# Or run on a custom sample (e.g. first 5,000 queries)
+python -m src.run_agent --all --limit 5000
+
+# High-throughput batch script
+python scripts/batch_predict_apple.py
+```
+
+### 3. Run Benchmark & Baseline Comparisons
+
+```powershell
+# Run 11-intent benchmark comparison vs. Online Seq2Seq & Trivial baselines
+python evaluation/benchmark_comparison.py
+
+# Run 3-system evaluation harness on golden set
+python -m src.run_baselines
+```
+
+### 4. Interactive Terminal Chat
+
+Launch an interactive customer support session:
 
 ```powershell
 python -m src.run_agent --interactive
