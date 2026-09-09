@@ -37,7 +37,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", type=Path, default=Path("evaluation/results"))
     parser.add_argument("--sample",     type=int,  default=40_000,
                         help="Pairs rows for LR training (weak supervision).")
-    parser.add_argument("--conf-threshold", type=float, default=0.55,
+    parser.add_argument("--conf-threshold", type=float, default=0.42,
                         help="Confidence threshold for human escalation (safety gate).")
     parser.add_argument("--random-state", type=int, default=42)
     return parser.parse_args()

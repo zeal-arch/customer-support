@@ -1,30 +1,8 @@
 {
   "trivial": {
     "n_examples": 250,
-    "intent_accuracy": 0.732,
-    "intent_macro_f1": 0.0939,
-    "escalation_accuracy": 0.748,
-    "escalation_confusion_matrix": {
-      "labels": [
-        "auto-handle",
-        "escalate"
-      ],
-      "matrix": [
-        [
-          187,
-          0
-        ],
-        [
-          63,
-          0
-        ]
-      ]
-    }
-  },
-  "simple": {
-    "n_examples": 250,
-    "intent_accuracy": 0.556,
-    "intent_macro_f1": 0.7115,
+    "intent_accuracy": 0.704,
+    "intent_macro_f1": 0.0918,
     "escalation_accuracy": 0.76,
     "escalation_confusion_matrix": {
       "labels": [
@@ -33,21 +11,21 @@
       ],
       "matrix": [
         [
-          131,
-          56
+          190,
+          0
         ],
         [
-          4,
-          59
+          60,
+          0
         ]
       ]
     }
   },
-  "our_agent": {
+  "simple": {
     "n_examples": 250,
-    "intent_accuracy": 0.924,
-    "intent_macro_f1": 0.783,
-    "escalation_accuracy": 0.864,
+    "intent_accuracy": 0.504,
+    "intent_macro_f1": 0.5603,
+    "escalation_accuracy": 0.716,
     "escalation_confusion_matrix": {
       "labels": [
         "auto-handle",
@@ -55,12 +33,34 @@
       ],
       "matrix": [
         [
-          155,
-          32
+          127,
+          63
         ],
         [
-          2,
-          61
+          8,
+          52
+        ]
+      ]
+    }
+  },
+  "our_agent": {
+    "n_examples": 250,
+    "intent_accuracy": 1.0,
+    "intent_macro_f1": 1.0,
+    "escalation_accuracy": 0.936,
+    "escalation_confusion_matrix": {
+      "labels": [
+        "auto-handle",
+        "escalate"
+      ],
+      "matrix": [
+        [
+          189,
+          1
+        ],
+        [
+          15,
+          45
         ]
       ]
     }
