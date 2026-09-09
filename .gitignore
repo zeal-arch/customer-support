@@ -16,10 +16,10 @@ htmlcov/
 .mypy_cache/
 .ruff_cache/
 
-# Raw dataset archive and extracted twcs
+# Raw uncompressed dataset (reconstructed via data/twcs/unpack_twcs.py)
+data/twcs/twcs.csv
+data/twcs/twcs.zip
 data/*.zip
-data/twcs/
-data/raw/
 
 # Internal documentation and scratch experiments (never pushed)
 .docs/
