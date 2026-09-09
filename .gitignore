@@ -1,17 +1,52 @@
+# Virtual environments
 .venv/
+venv/
+env/
+ENV/
+
+# Python bytecode and build artifacts
 __pycache__/
 *.py[cod]
+*$py.class
+*.pyd
+*.so
 .pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
 
-# Ignore massive raw dataset and large processed data
+# Large raw dataset and processed data (reproducible from pipeline)
 data/raw/twcs/
+data/raw/*.zip
+data/raw/*.tar.gz
 data/processed/*.csv
 !data/raw/*.ipynb
 !data/raw/sample.csv
 
-# Ignore graphify cache
+# Temporary and scratch files / logs
+scripts/
+scratch/
+*.log
+*.tmp
+
+# Graphify internal cache
 graphify-out/cache/
 .markdown-collab/
 
+# Editor and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment variables and secrets
 *.local.*
 .env
+.env.*
+*.pem
+*.key
