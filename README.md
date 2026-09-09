@@ -33,6 +33,8 @@ Evaluated against a 250-example hand-labelled golden dataset across three system
 
 ## Setup & Installation
 
+### 1. Environment Setup
+
 ```powershell
 # 1. Clone repository
 git clone https://github.com/zeal-arch/customer-support.git
@@ -46,6 +48,15 @@ python -m venv .venv
 # 3. Install requirements
 pip install -r requirements.txt
 ```
+
+### 2. Dataset Setup
+
+Download the Kaggle dataset (*Customer Support on Twitter*):
+1. Download from [Kaggle: thoughtvector/customer-support-on-twitter](https://www.kaggle.com/datasets/thoughtvector/customer-support-on-twitter) (or run `kaggle datasets download -d thoughtvector/customer-support-on-twitter -p data/twcs/ --unzip`).
+2. Place the CSV file at:
+   ```text
+   data/twcs/twcs.csv
+   ```
 
 ---
 
