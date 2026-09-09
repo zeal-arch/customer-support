@@ -32,8 +32,10 @@ from .text_preprocessing import normalize_for_classification
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--pairs",      type=Path, required=True)
-    parser.add_argument("--golden",     type=Path, required=True)
+    parser.add_argument("--pairs",      type=Path, default=Path("data/processed/applesupport_pairs.csv"),
+                        help="Path to preprocessed brand pairs CSV.")
+    parser.add_argument("--golden",     type=Path, default=Path("evaluation/golden_set.csv"),
+                        help="Path to golden evaluation set CSV.")
     parser.add_argument("--output-dir", type=Path, default=Path("evaluation/results"))
     parser.add_argument("--sample",     type=int,  default=40_000,
                         help="Pairs rows for LR training (weak supervision).")

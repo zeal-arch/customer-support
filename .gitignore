@@ -16,13 +16,12 @@ htmlcov/
 .mypy_cache/
 .ruff_cache/
 
-# Large raw dataset and processed data (reproducible from pipeline)
+# Raw dataset archive and extracted twcs
 data/raw/twcs/
 data/raw/*.zip
 data/raw/*.tar.gz
-data/processed/*.csv
-!data/raw/*.ipynb
-!data/raw/sample.csv
+data/raw/*.ipynb
+data/raw/sample.csv
 
 # Temporary and scratch files / logs
 scripts/

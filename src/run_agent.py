@@ -13,7 +13,8 @@ from .agent import SupportAgent
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--pairs", type=Path, required=True)
+    parser.add_argument("--pairs", type=Path, default=Path("data/processed/applesupport_pairs.csv"),
+                        help="Path to preprocessed brand pairs CSV.")
     parser.add_argument("--text", required=True)
     parser.add_argument("--top-k", type=int, default=3)
     parser.add_argument("--backend", choices=["tfidf", "minilm"], default="tfidf")
