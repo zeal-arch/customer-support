@@ -11,6 +11,7 @@
 - **Universal Multi-Brand Engine**: Also supports `Uber_Support`, `AmazonHelp`, `SpotifyCares`, and 100+ other brands with dynamic auto-routing.
 
 ### The Agent Performs 3 Tasks:
+
 1. **Intent Classification**: Classifies incoming customer inquiries into domain-specific intents.
 2. **Grounded Response Drafting**: Drafts safe, authentic replies strictly from verified historical resolutions (0% hallucination).
 3. **Deterministic Safety Escalation**: Decides whether to auto-handle or escalate to a human agent with a clear reason.
@@ -21,11 +22,11 @@
 
 Evaluated against a 250-example hand-labelled golden dataset across three systems:
 
-| System | Intent Accuracy | Intent Macro-F1 | Escalation Accuracy | Hallucination Rate |
-|---|---|---|---|---|
-| **Trivial Baseline** (Majority Class) | 70.40% | 0.0918 | 76.00% | N/A |
-| **Simple Baseline** (Rule-based + TF-IDF) | 50.40% | 0.5603 | 71.60% | 0.0% |
-| **Our Agent** (Hybrid Precedence + LR + RAG) | **100.00%** | **1.0000** | **93.60%** | **0.0%** |
+| System                                       | Intent Accuracy | Intent Macro-F1 | Escalation Accuracy | Hallucination Rate |
+| -------------------------------------------- | --------------- | --------------- | ------------------- | ------------------ |
+| **Trivial Baseline** (Majority Class)        | 70.40%          | 0.0918          | 76.00%              | N/A                |
+| **Simple Baseline** (Rule-based + TF-IDF)    | 50.40%          | 0.5603          | 71.60%              | 0.0%               |
+| **Our Agent** (Hybrid Precedence + LR + RAG) | **100.00%**     | **1.0000**      | **93.60%**          | **0.0%**           |
 
 - **Escalation Breakdown**: True Negatives (Auto-handled safely) = 189, False Positives (Over-escalated) = 1, False Negatives = 15, True Positives (Correctly escalated) = 45.
 
@@ -33,25 +34,16 @@ Evaluated against a 250-example hand-labelled golden dataset across three system
 
 ## Setup & Installation
 
-### 1. Environment Setup
+### 1. Install Dependencies
 
-```powershell
-# 1. Clone repository
-git clone https://github.com/zeal-arch/customer-support.git
-cd customer-support
-
-# 2. Create virtual environment
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1   # On Windows
-# source .venv/bin/activate    # On macOS / Linux
-
-# 3. Install requirements
+```bash
 pip install -r requirements.txt
 ```
 
 ### 2. Dataset Setup
 
-Download the Kaggle dataset (*Customer Support on Twitter*):
+Download the Kaggle dataset (_Customer Support on Twitter_):
+
 1. Download from [Kaggle: thoughtvector/customer-support-on-twitter](https://www.kaggle.com/datasets/thoughtvector/customer-support-on-twitter) (or run `kaggle datasets download -d thoughtvector/customer-support-on-twitter -p data/twcs/ --unzip`).
 2. Place the CSV file at:
    ```text
@@ -62,7 +54,7 @@ Download the Kaggle dataset (*Customer Support on Twitter*):
 
 ## How to Run
 
-### 1. Test Live Queries (Universal Agent)
+### Run the Agent on Any Customer Message
 
 ```powershell
 # Standard technical query (Auto-handled)
@@ -107,7 +99,7 @@ All deliverables required by the assignment are included in the repository:
    - Problem framing and scope boundaries.
    - Comparison against trivial and simple baselines.
    - Top 5 failure modes with real-world examples and root-cause hypotheses.
-   - *"What is misleading about my headline number?"* section.
+   - _"What is misleading about my headline number?"_ section.
    - Next steps with one more week of development.
 2. **[DECISION_LOG.md](file:///d:/projects/hiver/DECISION_LOG.md)**:
    - 15 non-obvious engineering decisions and their technical rationale.

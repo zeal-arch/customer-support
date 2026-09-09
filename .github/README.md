@@ -20,11 +20,13 @@ The system integrates **dynamic brand auto-routing**, **hybrid domain precedence
 ## Setup & Installation
 
 ### 1. Prerequisites
+
 - Python 3.9+ (tested on Python 3.10, 3.11, and 3.13)
 - PowerShell, Bash, or Command Prompt
 - Git
 
 ### 2. Clone Repository & Install Dependencies
+
 ```powershell
 git clone https://github.com/zeal-arch/customer-support.git
 cd customer-support
@@ -39,7 +41,9 @@ python -m pip install -r requirements.txt
 ```
 
 ### 3. Dataset Setup
-Download the Kaggle dataset (*Customer Support on Twitter*):
+
+Download the Kaggle dataset (_Customer Support on Twitter_):
+
 1. Download from [Kaggle: thoughtvector/customer-support-on-twitter](https://www.kaggle.com/datasets/thoughtvector/customer-support-on-twitter) (or run `kaggle datasets download -d thoughtvector/customer-support-on-twitter -p data/twcs/ --unzip`).
 2. Place the CSV at:
    ```text
@@ -55,10 +59,13 @@ Download the Kaggle dataset (*Customer Support on Twitter*):
 The Universal Agent automatically detects the relevant brand from the text and executes intent classification, response retrieval, and safety evaluation.
 
 #### A. Single Query Live Inference (Auto-Detected Brand)
+
 ```powershell
 python -m src.universal_agent --text "@Uber_Support my driver was driving extremely reckless and threatened me!"
 ```
+
 **Output Payload:**
+
 ```json
 {
   "brand": "Uber_Support",
@@ -76,11 +83,13 @@ python -m src.universal_agent --text "@Uber_Support my driver was driving extrem
 ```
 
 #### B. Technical Support Query (Auto-Handled)
+
 ```powershell
 python -m src.universal_agent --text "@AppleSupport my battery is draining super fast after the latest iOS update"
 ```
 
 #### C. Interactive Multi-Brand Terminal Chat Session
+
 ```powershell
 python -m src.universal_agent --interactive
 ```
@@ -92,24 +101,28 @@ python -m src.universal_agent --interactive
 Each sub-brand module under `src/brands/` is 100% self-contained with its own agent logic, intent classifier, preprocessing rules, and CLI runner.
 
 #### AppleSupport Module
+
 ```powershell
 python -m src.brands.apple.run --text "My AirPods won't connect to my MacBook Pro"
 python -m src.brands.apple.run --interactive
 ```
 
 #### Uber Support Module
+
 ```powershell
 python -m src.brands.uber.run --text "I was charged twice for my trip yesterday @Uber_Support"
 python -m src.brands.uber.run --interactive
 ```
 
 #### Amazon Help Module
+
 ```powershell
 python -m src.brands.amazon.run --text "My package was marked delivered but I never received it @AmazonHelp"
 python -m src.brands.amazon.run --interactive
 ```
 
 #### Spotify Cares Module
+
 ```powershell
 python -m src.brands.spotify.run --text "Spotify Family plan charged me twice this month @SpotifyCares"
 python -m src.brands.spotify.run --interactive
@@ -144,9 +157,9 @@ customer-support/
 
 ## Benchmark Summary
 
-| System | Intent Accuracy | Intent Macro-F1 | Escalation Accuracy | Hallucination Rate | Throughput (CPU) |
-|---|---|---|---|---|---|
-| Majority Class Baseline | 70.4% | 0.0918 | 76.0% | N/A | >1000 q/s |
-| Pure TF-IDF Baseline | 50.4% | 0.5603 | 71.6% | 0% | >500 q/s |
-| Neural Seq2Seq / LLM (Unconstrained) | 78.2% | 0.7420 | 81.4% | >64.0% | ~5 q/s |
-| **Our Hybrid Multi-Brand Agent** | **100.0%** | **1.0000** | **93.6%** | **0.0%** | **>100 q/s** |
+| System                               | Intent Accuracy | Intent Macro-F1 | Escalation Accuracy | Hallucination Rate | Throughput (CPU) |
+| ------------------------------------ | --------------- | --------------- | ------------------- | ------------------ | ---------------- |
+| Majority Class Baseline              | 70.4%           | 0.0918          | 76.0%               | N/A                | >1000 q/s        |
+| Pure TF-IDF Baseline                 | 50.4%           | 0.5603          | 71.6%               | 0%                 | >500 q/s         |
+| Neural Seq2Seq / LLM (Unconstrained) | 78.2%           | 0.7420          | 81.4%               | >64.0%             | ~5 q/s           |
+| **Our Hybrid Multi-Brand Agent**     | **100.0%**      | **1.0000**      | **93.6%**           | **0.0%**           | **>100 q/s**     |
