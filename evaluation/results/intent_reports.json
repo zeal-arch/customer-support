@@ -1,0 +1,215 @@
+{
+  "trivial": {
+    "account_access_security": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 6.0
+    },
+    "app_service_issue": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 16.0
+    },
+    "app_store_billing": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 8.0
+    },
+    "battery_power": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 8.0
+    },
+    "connectivity_network": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 11.0
+    },
+    "hardware_accessory": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 7.0
+    },
+    "how_to_settings": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 10.0
+    },
+    "ios_software_bug": {
+      "precision": 0.732,
+      "recall": 1.0,
+      "f1-score": 0.8452655889145496,
+      "support": 183.0
+    },
+    "setup_transfer_sync": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "accuracy": 0.732,
+    "macro avg": {
+      "precision": 0.08133333333333333,
+      "recall": 0.1111111111111111,
+      "f1-score": 0.09391839876828328,
+      "support": 250.0
+    },
+    "weighted avg": {
+      "precision": 0.535824,
+      "recall": 0.732,
+      "f1-score": 0.6187344110854504,
+      "support": 250.0
+    }
+  },
+  "simple": {
+    "account_access_security": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 6.0
+    },
+    "app_service_issue": {
+      "precision": 0.9090909090909091,
+      "recall": 0.625,
+      "f1-score": 0.7407407407407407,
+      "support": 16.0
+    },
+    "app_store_billing": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 8.0
+    },
+    "battery_power": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 8.0
+    },
+    "connectivity_network": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 11.0
+    },
+    "hardware_accessory": {
+      "precision": 0.38461538461538464,
+      "recall": 0.7142857142857143,
+      "f1-score": 0.5,
+      "support": 7.0
+    },
+    "how_to_settings": {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1-score": 0.75,
+      "support": 10.0
+    },
+    "ios_software_bug": {
+      "precision": 0.9767441860465116,
+      "recall": 0.45901639344262296,
+      "f1-score": 0.6245353159851301,
+      "support": 183.0
+    },
+    "other_unclear": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "setup_transfer_sync": {
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1-score": 0.5,
+      "support": 1.0
+    },
+    "accuracy": 0.556,
+    "macro avg": {
+      "precision": 0.7603783813086138,
+      "recall": 0.7398302107728337,
+      "f1-score": 0.7115276056725871,
+      "support": 250.0
+    },
+    "weighted avg": {
+      "precision": 0.9572611264704288,
+      "recall": 0.556,
+      "f1-score": 0.6825672587085225,
+      "support": 250.0
+    }
+  },
+  "our_agent": {
+    "account_access_security": {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1-score": 0.8,
+      "support": 6.0
+    },
+    "app_service_issue": {
+      "precision": 0.8,
+      "recall": 1.0,
+      "f1-score": 0.8888888888888888,
+      "support": 16.0
+    },
+    "app_store_billing": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1-score": 0.6666666666666666,
+      "support": 8.0
+    },
+    "battery_power": {
+      "precision": 0.75,
+      "recall": 0.375,
+      "f1-score": 0.5,
+      "support": 8.0
+    },
+    "connectivity_network": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 11.0
+    },
+    "hardware_accessory": {
+      "precision": 0.7777777777777778,
+      "recall": 1.0,
+      "f1-score": 0.875,
+      "support": 7.0
+    },
+    "how_to_settings": {
+      "precision": 0.8181818181818182,
+      "recall": 0.9,
+      "f1-score": 0.8571428571428571,
+      "support": 10.0
+    },
+    "ios_software_bug": {
+      "precision": 0.9565217391304348,
+      "recall": 0.9617486338797814,
+      "f1-score": 0.9591280653950953,
+      "support": 183.0
+    },
+    "setup_transfer_sync": {
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1-score": 0.5,
+      "support": 1.0
+    },
+    "accuracy": 0.924,
+    "macro avg": {
+      "precision": 0.8262016298248182,
+      "recall": 0.8226017000607164,
+      "f1-score": 0.7829807197881675,
+      "support": 250.0
+    },
+    "weighted avg": {
+      "precision": 0.9312122968818622,
+      "recall": 0.924,
+      "f1-score": 0.9202896803771463,
+      "support": 250.0
+    }
+  }
+}

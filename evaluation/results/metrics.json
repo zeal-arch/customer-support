@@ -1,0 +1,68 @@
+{
+  "trivial": {
+    "n_examples": 250,
+    "intent_accuracy": 0.732,
+    "intent_macro_f1": 0.0939,
+    "escalation_accuracy": 0.748,
+    "escalation_confusion_matrix": {
+      "labels": [
+        "auto-handle",
+        "escalate"
+      ],
+      "matrix": [
+        [
+          187,
+          0
+        ],
+        [
+          63,
+          0
+        ]
+      ]
+    }
+  },
+  "simple": {
+    "n_examples": 250,
+    "intent_accuracy": 0.556,
+    "intent_macro_f1": 0.7115,
+    "escalation_accuracy": 0.76,
+    "escalation_confusion_matrix": {
+      "labels": [
+        "auto-handle",
+        "escalate"
+      ],
+      "matrix": [
+        [
+          131,
+          56
+        ],
+        [
+          4,
+          59
+        ]
+      ]
+    }
+  },
+  "our_agent": {
+    "n_examples": 250,
+    "intent_accuracy": 0.924,
+    "intent_macro_f1": 0.783,
+    "escalation_accuracy": 0.864,
+    "escalation_confusion_matrix": {
+      "labels": [
+        "auto-handle",
+        "escalate"
+      ],
+      "matrix": [
+        [
+          155,
+          32
+        ],
+        [
+          2,
+          61
+        ]
+      ]
+    }
+  }
+}

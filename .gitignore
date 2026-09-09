@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Ignore massive raw dataset and large processed data
+data/raw/twcs/
+data/processed/*.csv
+!data/raw/*.ipynb
+!data/raw/sample.csv
+
+# Ignore graphify cache
+graphify-out/cache/
+.markdown-collab/
+
+*.local.*
+.env

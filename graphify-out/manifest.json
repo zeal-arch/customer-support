@@ -1,0 +1,116 @@
+{
+  ".markdown-collab/.mcp-server.json": {
+    "mtime": 1788941352.7207825,
+    "seen": 1788941908.964335,
+    "ast_hash": "642a5149a657eb106866061d72245782",
+    "semantic_hash": "642a5149a657eb106866061d72245782"
+  },
+  "src/__init__.py": {
+    "mtime": 1788938010.0708306,
+    "seen": 1788941908.964341,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "src/agent.py": {
+    "mtime": 1788939888.7957633,
+    "seen": 1788941908.9643433,
+    "ast_hash": "70a32330c85dfdbb79556500762369f6",
+    "semantic_hash": "70a32330c85dfdbb79556500762369f6"
+  },
+  "src/banking77_experiment.py": {
+    "mtime": 1788940509.5492806,
+    "seen": 1788941908.9643445,
+    "ast_hash": "f75a986b1811f848a58ac69ff9fb37dd",
+    "semantic_hash": "f75a986b1811f848a58ac69ff9fb37dd"
+  },
+  "src/compare_preprocessing.py": {
+    "mtime": 1788939888.7987604,
+    "seen": 1788941908.9643462,
+    "ast_hash": "dd2c9b3445f7201967897c16d2cd4416",
+    "semantic_hash": "dd2c9b3445f7201967897c16d2cd4416"
+  },
+  "src/create_labeling_sample.py": {
+    "mtime": 1788939190.4430988,
+    "seen": 1788941908.9643471,
+    "ast_hash": "955061333a61349f62e2aa88dadb5453",
+    "semantic_hash": "955061333a61349f62e2aa88dadb5453"
+  },
+  "src/evaluate_agent.py": {
+    "mtime": 1788940813.9377053,
+    "seen": 1788941908.9643483,
+    "ast_hash": "a7f8f08d46b7ea517286a570f1002895",
+    "semantic_hash": "a7f8f08d46b7ea517286a570f1002895"
+  },
+  "src/extract_brand.py": {
+    "mtime": 1788938834.9213314,
+    "seen": 1788941908.9643493,
+    "ast_hash": "23bfcd98c6972b766e64d90e641b929c",
+    "semantic_hash": "23bfcd98c6972b766e64d90e641b929c"
+  },
+  "src/inspect_data.py": {
+    "mtime": 1788938757.5528004,
+    "seen": 1788941908.9643505,
+    "ast_hash": "dc48976883a6a62c800d06a9ee25b410",
+    "semantic_hash": "dc48976883a6a62c800d06a9ee25b410"
+  },
+  "src/profile_brand.py": {
+    "mtime": 1788939121.0901392,
+    "seen": 1788941908.9643512,
+    "ast_hash": "515923fd785ce0d4a4380dd904727886",
+    "semantic_hash": "515923fd785ce0d4a4380dd904727886"
+  },
+  "src/run_agent.py": {
+    "mtime": 1788940813.9387045,
+    "seen": 1788941908.9643526,
+    "ast_hash": "29dc184494c1b7ca93d0ae293a9a1e58",
+    "semantic_hash": "29dc184494c1b7ca93d0ae293a9a1e58"
+  },
+  "src/semantic_agent.py": {
+    "mtime": 1788940813.9367032,
+    "seen": 1788941908.9643538,
+    "ast_hash": "15570769a2fe4f7fa7a13cda7189e8e9",
+    "semantic_hash": "15570769a2fe4f7fa7a13cda7189e8e9"
+  },
+  "src/suggest_labels.py": {
+    "mtime": 1788940813.9377053,
+    "seen": 1788941908.9643548,
+    "ast_hash": "ac5abcb98fbaead7fc1098dcaf3a0843",
+    "semantic_hash": "ac5abcb98fbaead7fc1098dcaf3a0843"
+  },
+  "src/text_preprocessing.py": {
+    "mtime": 1788939441.458606,
+    "seen": 1788941908.964356,
+    "ast_hash": "2e97a45a111c05f1f868526729e55358",
+    "semantic_hash": "2e97a45a111c05f1f868526729e55358"
+  },
+  "Hiver SDE Intern Assignment.md": {
+    "mtime": 1788937614.0764587,
+    "seen": 1788941908.9643571,
+    "ast_hash": "570d3c1c70628580673d6ab7affef095",
+    "semantic_hash": "570d3c1c70628580673d6ab7affef095"
+  },
+  "README.md": {
+    "mtime": 1788940813.939704,
+    "seen": 1788941908.964358,
+    "ast_hash": "7f83c112ce3957c1a3409c536f736749",
+    "semantic_hash": "7f83c112ce3957c1a3409c536f736749"
+  },
+  "evaluation/intent_guide.md": {
+    "mtime": 1788939190.4421017,
+    "seen": 1788941908.9643593,
+    "ast_hash": "f0082293386240eda7bda6efc8029a4c",
+    "semantic_hash": "f0082293386240eda7bda6efc8029a4c"
+  },
+  "requirements-optional.txt": {
+    "mtime": 1788940435.6592126,
+    "seen": 1788941908.9643605,
+    "ast_hash": "67f33d1a907dfc30519154cf797842cf",
+    "semantic_hash": "67f33d1a907dfc30519154cf797842cf"
+  },
+  "requirements.txt": {
+    "mtime": 1788938010.0608246,
+    "seen": 1788941908.9643617,
+    "ast_hash": "50c5e5329cd7ea38cc3880c64a5a767c",
+    "semantic_hash": "50c5e5329cd7ea38cc3880c64a5a767c"
+  }
+}
